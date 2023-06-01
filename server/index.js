@@ -28,23 +28,22 @@ app.get("/test", (req, res, next) => {
 
 
 
-app.post("/register", async (req, res, next)=> {
+app.post("/register", (req, res, next)=> {
 
-    const {name, email, password, code} = req.body;
+const {name, email, password, code} = req.body;
 
-    try{
-        const userDoc = await User.create({
-            name,
-            email,
-            password: bcrypt.hashSync(password, bcryptSalt),
-            code, 
-        });
-        res.json(userDoc);
-    } catch (error) {
-        res.status(422).json(error)
-    }
-
-
-})
+  User.create({
+    name,
+    email,
+    password: bcrypt.hashSync(password, bcryptSalt),
+    code,
+  })
+    .then((resp) => {
+      res.json(resp);
+    })
+    .catch((error) => {
+      res.status(422).json(error);
+    });
+});
 
 app.listen(3000); 
