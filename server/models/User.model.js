@@ -7,7 +7,6 @@ const UserSchema = new Schema ({
         type: String, 
         unique:true},
     password: String,
-    code: String,
     eventsCreated: [{
         type: Schema.Types.ObjectId,
         ref:"Event"

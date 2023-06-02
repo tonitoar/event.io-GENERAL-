@@ -36,7 +36,9 @@ const {name, email, password, code} = req.body;
     name,
     email,
     password: bcrypt.hashSync(password, bcryptSalt),
-    code,
+ 
+    
+    
   })
     .then((resp) => {
       res.json(resp);
