@@ -1,30 +1,34 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import axios from "axios"; 
 
 export default function RegisterPage() {
 
-  const [name, setName]= useState("");
+  const [username, setUsername]= useState("");
   const [email, setEmail]= useState("");
   const [password, setPassword]= useState("");
   const [code, setCode]= useState("");
-
-  function registerUser(e) {
-    e.preventDefault();
-    axios.post("/register", {
-        name,
-        email,
-        password,
-        code,
-      })
-      .then(() => {
-        alert("Registration successful. Now you can log in")
-      })
-      .catch(()=> {
-        alert("Registration failed. Please try again")
-      });
+  const[redirect, setRedirect] = useState(false);
+  
+  async function registerUser(e) {
+      e.preventDefault();
+      try{
+        await axios.post("/register", {
+          username,
+          email,
+          password,
+          code,
+        });
+        alert("Registration successful. Now you can log in");
+        setRedirect(true);
+      } catch (e) {
+        alert("Registration failed. Please try again");
+      }
     }
   
+    if (redirect) {
+      return <Navigate to={"/login"} />
+    }
 
   return (
     <div className="mt-4 grow flex items-center justify-around">
@@ -33,8 +37,8 @@ export default function RegisterPage() {
         <form className="max-w-md mx-auto" onSubmit={registerUser}>
           <input type="text" 
                 placeholder="Username"
-                value={name} 
-                onChange={(e)=>setName(e.target.value)}/>
+                value={username} 
+                onChange={(e)=>setUsername(e.target.value)}/>
           <input type="email" 
                 placeholder="your@email.com" 
                 value={email} 
