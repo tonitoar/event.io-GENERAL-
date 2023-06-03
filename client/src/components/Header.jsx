@@ -16,7 +16,7 @@ export default function Header() {
             <Link to={"/"} className="flex items-center gap-1 ">
                 <img className="w-40" src={Logo}/>
             </Link>
-            <div className="flex gap-2 border border-gray-300 rounded-full py-2 px-4 mr-14 shadow-md shadow-gray-300">
+            <div className="flex gap-2 border border-gray-300 rounded-full py-2 px-4 ml-4 shadow-md shadow-gray-300">
                 <div className="mt-1">Find your next event</div>
                 {/* <div className="border-l border-gray-300"></div>
                 <div>Any week</div>

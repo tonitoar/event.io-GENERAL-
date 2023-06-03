@@ -25,9 +25,15 @@ app.use(
 // ! console.log(process.env.MONGO_URL) si funciona dotenv
 mongoose.connect(process.env.MONGO_URL);
 
+
+
+
 app.get("/test", (req, res, next) => {
   res.json("HOLA");
 });
+
+
+//TODO REGISTER
 
 app.post("/register", async (req, res, next) => {
   const { username, email, password, code } = req.body;
@@ -44,6 +50,9 @@ app.post("/register", async (req, res, next) => {
     res.status(422).json(e);
   }
 });
+
+
+//TODO LOGIN
 
 app.post("/login", async (req, res, next) => {
   const { email, password } = req.body;
@@ -77,6 +86,9 @@ app.post("/login", async (req, res, next) => {
   }
 });
 
+
+//TODO PROFILE
+
 app.get("/profile", (req, res, next) => {
   const { token } = req.cookies;
   if (token) {
@@ -94,5 +106,14 @@ app.get("/profile", (req, res, next) => {
     res.json(null);
   }
 });
+
+
+//TODO LOGOUT
+
+app.post("/logout", (req, res, next) => { //! resetear cookie usuario
+  res.cookie("token", "").json(true); //! si surts, no pots fer /account, has de tornar a logejar-te // en el NETWORK ha de surtir Preview TRUE si funciona
+})
+
+
 
 app.listen(3000);
