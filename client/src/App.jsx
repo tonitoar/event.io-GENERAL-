@@ -9,6 +9,7 @@ import RegisterPage from "./pages/RegisterPage";
 import AccountPage from "./pages/AccountPage";
 
 import axios from "axios"; 
+import DisplayImage from "../DisplayImage";
 
 axios.defaults.baseURL = "http://localhost:3000";
 //axios.defaults.withCredentials = true; 
@@ -20,6 +21,7 @@ function App() {
     <UserContextProvider>
       <Routes>
           <Route path="/" element={<Layout />}> 
+            <Route path="/images" element={<DisplayImage />} />  {/* //! comprobar display images from cludinary, borrar al final  */}
             <Route index element={<IndexPage />} />
             <Route path="/register" element={<RegisterPage />} />  
             <Route path="/login" element={<LoginPage />} />  

@@ -118,9 +118,8 @@ app.post("/logout", (req, res, next) => { //! resetear cookie usuario
   res.cookie("token", "").json(true); //! si surts, no pots fer /account, has de tornar a logejar-te // en el NETWORK ha de surtir Preview TRUE si funciona
 })
 
+
 //TODO CLOUDINARY
-
-
 
 app.post('/api/upload', async (req, res, next) => {
 try {
@@ -137,6 +136,15 @@ try {
 }
 });
 
+//TODO llista per public_id que estan dintre de la carpeta
+
+app.get("/api/images", async (req, res, next) => {
+  const {resources} = await cloudinary.search.expression("folder:event.io").sort_by("public_id", "desc").max_results(30).execute();
+  //*console.log(resources); 
+  const publicIds = resources.map(file => file.public_id);
+  res.send(publicIds); 
+  
+})
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
