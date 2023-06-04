@@ -4,7 +4,8 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
-const upload = require('./config/cloudinary.config');
+/* const upload = require('./config/cloudinary.config'); */
+const {cloudinary} = require("./config/cloudinary.config");
 
 const User = require("./models/User.model.js");
 
@@ -13,8 +14,10 @@ const app = express();
 
 const bcryptSalt = bcrypt.genSaltSync(10);
 
-app.use(express.json());
+// app.use(express.json());
+app.use(express.json({limit: "50mb"}));
 app.use(cookieParser());
+app.use(express.urlencoded({limit: "50mb", extended: true}));
 
 app.use(
   cors({
@@ -117,23 +120,25 @@ app.post("/logout", (req, res, next) => { //! resetear cookie usuario
 
 //TODO CLOUDINARY
 
-app.post('/upload', upload.single('file'), async (req, res) => {
-  const { link } = req.file;
 
-  try {
-    const file = new File({
-      photourl: [link],
-    });
 
-    await file.save();
-
-    res.json({ message: 'File uploaded successfully' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Error uploading file' });
-  }
+app.post('/api/upload', async (req, res, next) => {
+try {
+  const fileStr = req.body.data;
+  const uploadedResponse = await cloudinary.uploader.upload(fileStr, {
+    upload_preset: "ml_default"
+  })
+  console.log(uploadedResponse);
+  res.json({msg:"YEEESSS"})
+  
+} catch (error) {
+  console.error(error);
+  res.status(500).json({err: "WRONG"})
+}
 });
 
 
-
-app.listen(3000);
+const PORT = process.env.PORT || 3000
+app.listen(PORT, () => {
+  console.log(`listening on port ${PORT}`)
+});
