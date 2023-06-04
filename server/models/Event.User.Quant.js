@@ -2,18 +2,15 @@ const mongoose = require ("mongoose");
 const {Schema} = mongoose; 
 
 const EventsUserSchema = new Schema ({
-  title: String,
-  Date: String,
-  Location: String,
-  Description: String,
-  NumInvitados : Number,
-  MaxInvitados: Number,
-  ImageUrl: String,
-  Buyers: [{
-    type: Schema.Types.ObjectId,
+  idUser: {
+    type: mongoose.Schema.Types.ObjectId,
     ref:"User"
-    }],
-    isCancelled: Boolean, 
+  },
+  idEvent: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref:"Event"
+  },
+  quantity: Number, 
 
 });
 

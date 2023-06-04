@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
+const upload = require('./config/cloudinary.config');
 
 const User = require("./models/User.model.js");
 
@@ -97,7 +98,7 @@ app.get("/profile", (req, res, next) => {
       process.env.TOKEN_SECRET,
       { algorithm: "HS256", expiresIn: "24h" },
       async (error, userData) => {
-        if (error) throw err;
+        if (error) throw error;
       const {username, email, _id} =  await User.findById(userData.id)
         res.json({username, email, _id});
       }
@@ -113,6 +114,25 @@ app.get("/profile", (req, res, next) => {
 app.post("/logout", (req, res, next) => { //! resetear cookie usuario
   res.cookie("token", "").json(true); //! si surts, no pots fer /account, has de tornar a logejar-te // en el NETWORK ha de surtir Preview TRUE si funciona
 })
+
+//TODO CLOUDINARY
+
+app.post('/upload', upload.single('file'), async (req, res) => {
+  const { link } = req.file;
+
+  try {
+    const file = new File({
+      photourl: [link],
+    });
+
+    await file.save();
+
+    res.json({ message: 'File uploaded successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error uploading file' });
+  }
+});
 
 
 

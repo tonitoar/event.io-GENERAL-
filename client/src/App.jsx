@@ -11,7 +11,7 @@ import AccountPage from "./pages/AccountPage";
 import axios from "axios"; 
 
 axios.defaults.baseURL = "http://localhost:3000";
-axios.defaults.withCredentials = true; 
+//axios.defaults.withCredentials = true; 
 
 
 function App() {
@@ -24,6 +24,7 @@ function App() {
             <Route path="/register" element={<RegisterPage />} />  
             <Route path="/login" element={<LoginPage />} />  
             <Route path="/account/:subpage?" element={<AccountPage />} /> {/* //! subpage --> events and admin */}
+            <Route path="/account/:subpage/:action" element={<AccountPage />} /> {/* //! no admin/evenet/create ---> admin/create */}
           </Route>
       </Routes>
     </UserContextProvider>
