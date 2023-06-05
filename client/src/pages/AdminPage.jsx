@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 /* import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"; */
-import axios from "axios";
+
 
 export default function AdminPage() {
 
@@ -57,6 +57,7 @@ const uploadImage = async (base64EncodedImage) => {
     }
 }
 
+//! pujar input multiple
 
     return(
         <div>      
@@ -109,6 +110,7 @@ const uploadImage = async (base64EncodedImage) => {
                             <div className="flex gap-2">
                                 <input type="file" 
                                         name="image"
+                                        multiple
                                         value={fileInputState} 
                                         onChange={handleFileInputChange}/>
                             </div>

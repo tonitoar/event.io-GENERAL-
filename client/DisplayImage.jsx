@@ -30,6 +30,8 @@ export default function DisplayImage () {
                 publicId={imageId}
                 width="300"
                 crop="scale"
+                quality="100"
+                fetchFormat="auto"
                 /> 
             ))}
         </div>
